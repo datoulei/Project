@@ -34,8 +34,9 @@ Grunt基于NodeJS开发，因此我们先安装NodeJS。
 * Step1 - 下载NodeJS。下载地址：[www.nodejs.org](http://www.nodejs.org)
 * Step2 - 安装NodeJS（以Windows7系统为例）  
 ![nodejs install package](images/nodejs-install-package.png)
-
-
+* Step3 - 配置环境变量。右键`计算机` -> `属性` -> `高级系统设置` -> `环境变量`，在PATH变量中添加下面两行(如果不存在)：
+    * C:\Users\jyun\AppData\Roaming\npm; (路径前缀根据当前用户而不同)
+    * C:\Program Files\nodejs;
 
 ### 1.1 NodeJS安装
 
