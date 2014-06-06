@@ -6,10 +6,10 @@
 
 ##文章目录
 - [1 环境搭建](#user-content-1-环境搭建)
-    - [1.1 NodeJS安装](#user-content-11-NodeJS安装)
-    - [1.2 NodeJS环境变量设置](#user-content-12-NodeJS环境变量设置)
-    - [1.3 Grunt-cli安装](#user-content-13-Grunt-cli安装)
-    - [1.4 Grunt安装](#user-content-14-Grunt安装)
+    - [1.1 NodeJS安装](#user-content-11-nodejs安装)
+    - [1.2 NodeJS环境变量设置](#user-content-12-nodejs环境变量设置)
+    - [1.3 Grunt-cli安装](#user-content-13-grunt-cli安装)
+    - [1.4 Grunt安装](#user-content-14-grunt安装)
 
 ## 1 环境搭建
 
