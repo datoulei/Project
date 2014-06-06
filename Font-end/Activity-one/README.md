@@ -28,6 +28,13 @@
 
 ## 1 环境搭建
 
+Grunt基于NodeJS开发，因此我们先安装NodeJS。
+> Node.js是一个可以快速构建网络服务及应用的平台。该平台的构建是基于Chrome's JavaScript runtime，也就是说，实际上它是对Google V8引擎（应用于Google Chrome浏览器)进行了封装。
+
+* Step1 - 下载NodeJS。下载地址：[www.nodejs.org](http://www.nodejs.org)
+* Step2 - 安装NodeJS（以Windows7系统为例）
+    ![nodejs install package](images/nodejs-install-package.png)
+
 ### 1.1 NodeJS安装
 
 ### 1.2 NodeJS环境变量设置
