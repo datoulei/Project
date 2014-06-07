@@ -125,7 +125,7 @@ grunt-contrib-concat用于合并文件,并支持添加头部注释和尾部注�
 npm install grunt-contrib-concat --save-dev
 ```
 
-* Step2 - 我们在项目中创建js文件夹,并添加`a.js`和`b.js`:  
+* Step2 - 在项目中创建js文件夹,并添加`a.js`和`b.js`:  
 
 ```
 js/a.js
@@ -149,37 +149,219 @@ function b(){
 
 ```javascript
 
-    grunt.initConfig({
-		pkg: grunt.file.readJSON('package.json'),
-		concat: {
-			options: {
-		      separator: ';',
-		      stripBanners: true
-		    },
-			dist: {
-				src: ['js/a.js', 'js/b.js'],
-				dest: 'js/c.js'
-			}
-		}
-	});
-    grunt.loadNpmTasks('grunt-contrib-concat');
-
-	grunt.registerTask('concatTask', ['concat']);
+grunt.initConfig({
+  pkg: grunt.file.readJSON('package.json'),
+  concat: {//concat配置
+    dist: {//任务目标
+      src: ['js/a.js', 'js/b.js'],//源文件
+      dest: 'js/c.js'//目标文件
+    }
+  }
+});
+grunt.loadNpmTasks('grunt-contrib-concat');
+grunt.registerTask('concatTask', ['concat']);
 
 ```
-* Step4 - 执行`grunt concat`:
+* Step4 - 执行`grunt concatTask`:  
 ![images alt text](images/grunt-concat.PNG)
+
+* Step5 - 查看`c.js`:  
+![](images/c.js.PNG)  
+
+> grunt.loadNpmTasks('grunt-contrib-concat')会加载相关插件,前提是插件已经通过Npm安装好了  
+grunt.registerTask('concatTask', ['concat']);用来注册grunt自定义任务,第一个参数是任务名称,第二个参数接受一个数组,会根据顺序依次执行相关的任务.然后通过在命令行中执行 grunt <taskName>来执行.
 
 
 ### 2.2 grunt-contrib-jshint
+**用途**:检查javascript代码
+* Step1 - 插件安装:  
+```
+npm install grunt-contrib-jshint --save-dev
+```
+
+* Step2 - 在项目中添加`check.js`:  
+
+```
+js/check.js
+
+a = 1;
+
+if(a != null) alert(a);
+```
+
+* Step3 - 修改`Gruntfile.js`,添加jshint配置:
+
+```javascript
+
+grunt.initConfig({
+  ...
+  jshint: {//jshint配置
+    options:{
+      "eqeqeq": true,         //使用 === 或 !==
+      "curly": true,          //循环和条件语句中的语句块必须放在{}中
+      "undef": true,          //所有变量必须先声明后使用
+    },
+    files: ['js/check.js']
+  }
+});
+grunt.loadNpmTasks('grunt-contrib-jshint');
+
+```
+* Step4 - 执行`grunt jshint`,查看错误报告:  
+![images alt text](images/grunt-jshint.PNG)
 
 ### 2.3 grunt-contrib-uglify
+**用途**:压缩javascript
+* Step1 - 插件安装:    
+
+```
+npm install grunt-contrib-uglify --save-dev
+```
+
+* Step2 - 在项目中添加`c.js`(之前已添加):  
+
+```javascript
+
+/**
+ * this is a function
+ */
+function a(){
+  alert('a');
+}
+/**
+ * this is b function
+ */
+function b(){
+  alert('b');
+}
+
+```
+
+* Step3 - 修改`Gruntfile.js`,添加uglify配置:
+
+```javascript
+
+grunt.initConfig({
+  ...
+  uglify: {//uglify配置
+    dist: {
+      src: 'js/c.js',
+      dest: 'js/c.min.js'
+    }
+  }
+});
+grunt.loadNpmTasks('grunt-contrib-uglify');
+
+```
+* Step4 - 执行`grunt uglify`:  
+![images alt text](images/grunt-uglify.PNG)
+
+* Step5 - 查看`c.min.js`:  
+![](images/c_min_js.PNG)
 
 ### 2.4 grunt-contrib-cssmin
+**用途**:合并压缩css
+* Step1 - 插件安装:    
+
+```
+npm install grunt-contrib-cssmin --save-dev
+```
+
+* Step2 - 在项目中添加`a.css`和`b.css`:  
+
+```css
+css/a.css
+
+p{color:#999;}
+
+css/b.css
+
+span{font-size: 18px;}
+```
+
+* Step3 - 修改`Gruntfile.js`,添加cssmin配置:
+
+```javascript
+
+grunt.initConfig({
+  ...
+  cssmin: {//cssmin配置
+    dist: {
+      src: ['css/a.css','css/b.css'],
+      dest: 'css/c.min.css'
+    }
+  }
+});
+grunt.loadNpmTasks('grunt-contrib-cssmin');
+
+```
+* Step4 - 执行`grunt cssmin`:  
+![images alt text](images/grunt-cssmin.PNG)
+
+* Step5 - 查看`c.min.css`:  
+![](images/c_min_css.PNG)
 
 ### 2.5 grunt-contrib-copy
+**用途**: 复制文件,文件夹
+* Step1 - 插件安装:    
+
+```
+npm install grunt-contrib-copy --save-dev
+```
+
+* Step2 - 修改`Gruntfile.js`,添加copy配置:
+
+```javascript
+
+grunt.initConfig({
+  ...
+  copy: {
+    css: {
+      src: 'css/*.min.css',
+      dest: 'styles/'
+    },
+    js: {
+      src: 'js/*.min.js',
+      dest: 'scripts/'
+    }
+  }
+});
+grunt.loadNpmTasks('grunt-contrib-copy');
+
+```
+* Step3 - 执行`grunt copy`:  
+![images alt text](images/grunt-copy.PNG)
+
+* Step4 - 查看文件结构:  
+![](images/folder.PNG)
 
 ### 2.6 grunt-contrib-clean
+**用途**: 清除文件,文件夹
+* Step1 - 插件安装:    
+
+```
+npm install grunt-contrib-clean --save-dev
+```
+
+* Step2 - 修改`Gruntfile.js`,添加clean配置:
+
+```javascript
+
+grunt.initConfig({
+  ...
+  clean: {
+    temp: ['styles','scripts']
+  }
+});
+grunt.loadNpmTasks('grunt-contrib-clean');
+
+```
+* Step3 - 执行`grunt clean`:  
+![images alt text](images/grunt-clean.PNG)
+
+* Step4 - 查看文件结构:  
+![](images/folder_clean.PNG)
+
 
 ### 2.7 grunt-contrib-connect
 
@@ -188,9 +370,66 @@ function b(){
 ### 2.9 grunt-bower-install
 
 ### 2.10 grunt-rev
+**用途**: 生成md5前缀
+* Step1 - 插件安装:    
+
+```
+npm install grunt-contrib-rev --save-dev
+```
+
+* Step2 - 修改`Gruntfile.js`,添加rev配置:
+
+```javascript
+
+grunt.initConfig({
+  ...
+  rev: {
+    dist: ['js/c.min.js','css/c.min.css']
+  }
+});
+grunt.loadNpmTasks('grunt-rev');
+
+```
+* Step3 - 执行`grunt rev`:  
+![images alt text](images/grunt-rev.PNG)
+
+* Step4 - 查看`js`文件夹:  
+![](images/folder_js.PNG)
 
 ### 2.11 grunt-usemin
 
 ### 2.12 load-grunt-tasks
+**用途**: 根据配置文件自动加载插件,免去手动加载插件,并且卸载插件后无需手动删除加载指令
+* Step1 - 修改`Gruntfile.js`,添加配置:
+
+```javascript
+module.exports = function(grunt) {
+  // 自动加载插件
+  require('load-grunt-tasks')(grunt);
+  
+  grunt.initConfig({
+    ...
+  });
+
+//不需要手动加载插件指令
+//grunt.loadNpmTasks('grunt-contrib-concat');
+//...
+//grunt.loadNpmTasks('grunt-contrib-jshint');
+}
+```
 
 ### 2.13 time-grunt
+**用途**: 计算每个任务执行耗时.
+* Step1 - 修改`Gruntfile.js`,添加配置:
+
+```javascript
+module.exports = function(grunt) {
+  //计算任务执行耗时
+  require('time-grunt')(grunt);
+  
+  grunt.initConfig({
+    ...
+  });
+  ...
+}
+```
