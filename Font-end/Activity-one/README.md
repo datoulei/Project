@@ -106,8 +106,70 @@ grunt插件的安装我们用到了`--save-dev`参数,该参数会自动帮我�
 在根目录下会多出`node_modules`文件夹,里面包含了所有我们项目依赖的包
 
 ## 2 常用Grunt插件介绍
+在grunt官网的插件列表中可以看到有非常多的插件,也正是这些插件赋予了Grunt无穷的魔力.下面介绍如何使用这些插件,一起来感受下Grunt带来的神奇.  
+> `grunt-contrib-`前缀的为官方维护的插件,其余的为第三方社区或个人维护的插件.  
+
+使用插件之前,我们先在项目根目录下创建`Gruntfile.js`.这是Grunt的配置文件,所有的Grunt插件都通过`Gruntfile.js`来进行配置:
+```javascript
+module.exports = function(grunt) {
+  grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json')
+  });
+}
+```
 
 ### 2.1 grunt-contrib-concat
+grunt-contrib-concat用于合并文件,并支持添加头部注释和尾部注释,以及对原有注释的清除.  
+* Step1 - 插件安装:  
+```
+npm install grunt-contrib-concat --save-dev
+```
+
+* Step2 - 我们在项目中创建js文件夹,并添加`a.js`和`b.js`:  
+
+```
+js/a.js
+/**
+ * this is a function
+ */
+function a(){
+	alert('a');
+}
+
+js/b.js 
+/**
+ * this is b function
+ */
+function b(){
+	alert('b');
+}
+```
+
+* Step3 - 修改`Gruntfile.js`,添加contact配置:
+
+```javascript
+
+    grunt.initConfig({
+		pkg: grunt.file.readJSON('package.json'),
+		concat: {
+			options: {
+		      separator: ';',
+		      stripBanners: true
+		    },
+			dist: {
+				src: ['js/a.js', 'js/b.js'],
+				dest: 'js/c.js'
+			}
+		}
+	});
+    grunt.loadNpmTasks('grunt-contrib-concat');
+
+	grunt.registerTask('concatTask', ['concat']);
+
+```
+* Step4 - 执行`grunt concat`:
+![images alt text](images/grunt-concat.PNG)
+
 
 ### 2.2 grunt-contrib-jshint
 
