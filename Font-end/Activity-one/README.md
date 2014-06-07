@@ -31,13 +31,19 @@
 Grunt基于NodeJS开发，因此我们先安装NodeJS。
 > Node.js是一个可以快速构建网络服务及应用的平台。该平台的构建是基于Chrome's JavaScript runtime，也就是说，实际上它是对Google V8引擎（应用于Google Chrome浏览器)进行了封装。
 
-* Step1 - 下载NodeJS。下载地址：[www.nodejs.org](http://www.nodejs.org)
-* Step2 - 安装NodeJS（以Windows7系统为例）
-    ![nodejs install package](images/nodejs-install-package.png)
-
 ### 1.1 NodeJS安装
 
+下载NodeJS。下载地址：[www.nodejs.org](http://www.nodejs.org)  
+下载完后点击安装包进行NodeJS安装  
+![nodejs install package](images/nodejs-install-package.png)
+
 ### 1.2 NodeJS环境变量设置
+
+右键打开`计算机` -> `属性` -> `高级系统设置` -> `环境变量`，在PATH变量中添加下面两行(如果不存在)：
+* C:\Users\jyun\AppData\Roaming\npm; (路径前缀根据当前用户而不同)
+* C:\Program Files\nodejs;（默认安装路径）
+
+安装完后我们验证一下版本。在命令行中输入`node -v && npm -v`，如果能看到相应的版本号，即安装成功。
 
 ### 1.3 Grunt-cli安装
 
