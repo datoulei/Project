@@ -19,11 +19,9 @@
     - [2.6 grunt-contrib-clean](#user-content-26-grunt-contrib-clean)
     - [2.7 grunt-contrib-connect](#user-content-27-grunt-contrib-connect)
     - [2.8 grunt-contrib-watch](#user-content-28-grunt-contrib-watch)
-    - [2.9 grunt-bower-install](#user-content-29-grunt-bower-install)
-    - [2.10 grunt-rev](#user-content-210-grunt-rev)
-    - [2.11 grunt-usemin](#user-content-211-grunt-usemin)
-    - [2.12 load-grunt-tasks](#user-content-212-load-grunt-tasks)
-    - [2.13 time-grunt](#user-content-213-time-grunt)
+    - [2.9 grunt-rev](#user-content-210-grunt-rev)
+    - [2.10 load-grunt-tasks](#user-content-212-load-grunt-tasks)
+    - [2.11 time-grunt](#user-content-213-time-grunt)
 - [3 综合练习](#user-content-3-综合练习)
 
 ## 1 环境搭建
@@ -318,11 +316,11 @@ grunt.initConfig({
   copy: {
     css: {
       src: 'css/*.min.css',
-      dest: 'styles/'
+      dest: 'dist/'
     },
     js: {
       src: 'js/*.min.js',
-      dest: 'scripts/'
+      dest: 'dist/'
     }
   }
 });
@@ -350,7 +348,7 @@ npm install grunt-contrib-clean --save-dev
 grunt.initConfig({
   ...
   clean: {
-    temp: ['styles','scripts']
+    dist: ['dist']
   }
 });
 grunt.loadNpmTasks('grunt-contrib-clean');
@@ -364,14 +362,131 @@ grunt.loadNpmTasks('grunt-contrib-clean');
 
 
 ### 2.7 grunt-contrib-connect
+**用途**: 启动内置Web服务器
+* Step1 - 插件安装
+
+```
+npm install grunt-contrib-connect
+```
+* Step2 - 修改`Gruntfile.js`,添加connect配置:
+
+```javascript
+
+grunt.initConfig({
+  ...
+  connect: {
+    server: {
+      options: {
+        hostname: 'localhost',
+        port: 9000,
+        base: '/'
+      }
+    }
+  }
+});
+grunt.loadNpmTasks('grunt-contrib-connect');
+
+```
+
+* Step3 - 执行`grunt connect`:  
+![images alt text](images/grunt-connect.PNG)  
+
+* Step4 - 在浏览器中访问`http://localhost:9000`.  
+> 访问的时候会发现无法访问,执行的时候也没用出现异常.原因是任务执行未阻塞监听端口,造成任务执行完毕后服务器又销毁了,想要实现阻塞监听端口,需要与**grunt-contrib-watch**共同工作.下一节会介绍如何真正启动一个web服务器.
+
 
 ### 2.8 grunt-contrib-watch
+**用途**: 监听文件变动,并触发相应任务
+* Step1 - 插件安装
 
-### 2.9 grunt-bower-install
+```
+npm install grunt-contrib-watch
+```
+* Step2 - 修改`Gruntfile.js`,添加watch配置:
 
-### 2.10 grunt-rev
+```javascript
+
+grunt.initConfig({
+  ...
+  watch: {
+    js: {
+      files: ['js/a.js'],
+      task: ['jshint']
+    }
+  }
+});
+grunt.loadNpmTasks('grunt-contrib-watch');
+
+```
+
+* Step3 - 执行`grunt watch`:  
+![images alt text](images/grunt-watch.PNG)  
+
+* Step4 - 修改`a.js`,保存后查看控制台输出:  
+![](images/grunt-watch1.PNG)
+
+#### 2.8.1 如何结合connect与watch来搭建web服务器
+* 前提:已安装`grunt-contrib-watch`和`grunt-contrib-connect`插件.
+* Step1 - 修改`Gruntfile.js`,配置`connect`和`watch`:  
+
+```javascript
+grunt.initConfig({
+  ...
+  watch: {
+    livereload: {
+      options: {
+        livereload: '<%= connect.options.livereload %>'
+      },
+      files: ['index.html']
+    }
+  },
+  connect: {
+    options: {
+      livereload: 35729,
+      open: true //自动打开浏览器
+    },
+    server: {
+      options: {
+        hostname: 'localhost',
+        port: 9000
+      }
+    }
+  }
+});
+
+grunt.registerTask('server', ['connect','watch']);
+```
+
+* Step2 - 创建`index.html`:  
+
+```html
+<html>
+<head></head>
+<body>
+<h1>Hello World</h1>
+</body>
+</html>
+```
+
+* Step3 - 命令行输入`grunt server`启动Web服务器,自动打开默认浏览器:  
+![](images/grunt-server.PNG)
+* Step4 - 修改`index.html`,保存:
+
+```html
+<html>
+<head></head>
+<body>
+<h1>Welcome to the Codelab</h1>
+</body>
+</html>
+```
+
+* Step5 - 切换到浏览器,页面已经自动刷新:  
+![](images/grunt-server1.PNG)
+
+### 2.9 grunt-rev
 **用途**: 生成md5前缀
-* Step1 - 插件安装:    
+* Step1 - 插件安装: 
 
 ```
 npm install grunt-contrib-rev --save-dev
@@ -396,11 +511,15 @@ grunt.loadNpmTasks('grunt-rev');
 * Step4 - 查看`js`文件夹:  
 ![](images/folder_js.PNG)
 
-### 2.11 grunt-usemin
-
-### 2.12 load-grunt-tasks
+### 2.10 load-grunt-tasks
 **用途**: 根据配置文件自动加载插件,免去手动加载插件,并且卸载插件后无需手动删除加载指令
-* Step1 - 修改`Gruntfile.js`,添加配置:
+* Step1 - 插件安装:    
+
+```
+npm install load-grunt-tasks --save-dev
+```
+
+* Step2 - 修改`Gruntfile.js`,添加配置:
 
 ```javascript
 module.exports = function(grunt) {
@@ -418,9 +537,15 @@ module.exports = function(grunt) {
 }
 ```
 
-### 2.13 time-grunt
+### 2.11 time-grunt
 **用途**: 计算每个任务执行耗时.
-* Step1 - 修改`Gruntfile.js`,添加配置:
+* Step1 - 插件安装:    
+
+```
+npm install time-grunt --save-dev
+```
+
+* Step2 - 修改`Gruntfile.js`,添加配置:
 
 ```javascript
 module.exports = function(grunt) {
@@ -433,3 +558,56 @@ module.exports = function(grunt) {
   ...
 }
 ```
+## 3 综合练习
+使用grunt-usemin插件来实现部署工程代码.
+**用途**: 监听资源变化并自动更新文件
+* Step1 - 插件安装:
+
+```
+npm install grunt-usemin --save-dev
+```
+* Step2 - 修改`Gruntfile.js`,添加配置:
+
+```javascript
+grunt.initConfig({
+  //资源定位前置任务
+  useminPrepare: {
+    html: 'index.html'
+  },
+  //资源定位后置任务
+  usemin: {
+    html: 'dist/index.html'
+  },
+  copy: {
+    html: {
+      src: 'index.html',
+      dest: 'dist/'
+    }
+  }
+});
+
+grunt.registerTask('build', ['useminPrepare','concat','uglify','cssmin','copy','usemin']);
+```
+* Step3 - 创建`index.html`,`a.css`,`b.css`,`a.js`,`b.js`:
+
+```html
+<html>
+<head>
+<!-- build:css css/main.min.css -->
+<link rel="stylesheet" href="css/a.css">
+<link rel="stylesheet" href="css/b.css">
+<!-- endbuild -->
+</head>
+<body>
+<h1>Welcome to the Codelab</h1>
+<!-- build:js js/main.min.js -->
+<script src="js/a.js"></script>
+<script src="js/b.js"></script>
+<!-- endbuild -->
+</body>
+</html>
+```
+* Step4 - 执行`grunt build`:  
+![](images/grunt-usemin.PNG)
+* Step5 - 查看`dist/index.html`:  
+![](images/dist-index-html.PNG)
