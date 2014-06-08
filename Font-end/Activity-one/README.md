@@ -208,6 +208,8 @@ grunt.loadNpmTasks('grunt-contrib-jshint');
 * Step4 - 执行`grunt jshint`,查看错误报告:  
 ![images alt text](images/grunt-jshint.PNG)
 
+http://www.jshint.com/docs/options/
+
 ### 2.3 grunt-contrib-uglify
 **用途**:压缩javascript
 * Step1 - 插件安装:    
