@@ -14,14 +14,15 @@
     - [2.1 grunt-contrib-concat](#user-content-21-grunt-contrib-concat)
     - [2.2 grunt-contrib-jshint](#user-content-22-grunt-contrib-jshint)
     - [2.3 grunt-contrib-uglify](#user-content-23-grunt-contrib-uglify)
-    - [2.4 grunt-contrib-cssmin](#user-contnet-24-grunt-contrib-cssmin)
+    - [2.4 grunt-contrib-cssmin](#user-content-24-grunt-contrib-cssmin)
     - [2.5 grunt-contrib-copy](#user-content-25-grunt-contrib-copy)
     - [2.6 grunt-contrib-clean](#user-content-26-grunt-contrib-clean)
     - [2.7 grunt-contrib-connect](#user-content-27-grunt-contrib-connect)
     - [2.8 grunt-contrib-watch](#user-content-28-grunt-contrib-watch)
-    - [2.9 grunt-rev](#user-content-210-grunt-rev)
-    - [2.10 load-grunt-tasks](#user-content-212-load-grunt-tasks)
-    - [2.11 time-grunt](#user-content-213-time-grunt)
+        - [2.8.1 如何结合connect与watch来搭建web服务器](#user-content-281-如何结合connect与watch来搭建web服务器)
+    - [2.9 grunt-rev](#user-content-29-grunt-rev)
+    - [2.10 load-grunt-tasks](#user-content-210-load-grunt-tasks)
+    - [2.11 time-grunt](#user-content-211-time-grunt)
 - [3 综合练习](#user-content-3-综合练习)
 
 ## 1 环境搭建
@@ -168,7 +169,6 @@ grunt.registerTask('concatTask', ['concat']);
 
 > grunt.loadNpmTasks('grunt-contrib-concat')会加载相关插件,前提是插件已经通过Npm安装好了  
 grunt.registerTask('concatTask', ['concat']);用来注册grunt自定义任务,第一个参数是任务名称,第二个参数接受一个数组,会根据顺序依次执行相关的任务.然后通过在命令行中执行 grunt <taskName>来执行.
-
 
 ### 2.2 grunt-contrib-jshint
 **用途**:检查javascript代码
