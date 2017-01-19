@@ -27,7 +27,7 @@ GDG兴趣小组
 - 有机会更近距离接触Google
 - 意想不到的惊喜
   
-加入我们，只需要把自我介绍发送到jiangyunbh@gmail.com。我们期待你的加入！
+加入我们，只需要把自我介绍发送到jackdonews@gmail.com。我们期待你的加入！
 
 
 
